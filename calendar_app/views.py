@@ -12,6 +12,23 @@ from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
+import os
+import time
+
+# Set the timezone to India (Asia/Kolkata)
+os.environ["TZ"] = "Asia/Kolkata"
+time.tzset()
+
+# Now, any time-related functions will use the India timezone.
+# For example:
+
+import datetime
+
+today_india = datetime.datetime.now()
+print(f"Current time in India: {today_india}")
+
+#To verify:
+print(time.strftime('%Z %z'))
 
 # Set paths based on OS
 if platform.system() == "Windows":  
