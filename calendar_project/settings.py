@@ -27,7 +27,7 @@ GOOGLE_CREDENTIALS_PATH = 'calendar_project/credentials.json'
 DEBUG = True
 CORS_ALLOW_ALL_ORIGINS = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
