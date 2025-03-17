@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Calendar Integration</title>
+</head>
+<body>
+    <h1>Welcome to Google Calendar Integration</h1>
+    <form action="{% url 'create_calendar_events' %}" method="get">
+        <label for="slot_name">Slot Name:</label>
+        <input type="text" id="slot_name" name="slot_name" required>
+        <label for="start_time">Start Time:</label>
+        <input type="text" id="start_time" name="start_time" required>
+        <label for="end_time">End Time:</label>
+        <input type="text" id="end_time" name="end_time" required>
+        <button type="submit">Create Event</button>
+    </form>
+</body>
+</html>

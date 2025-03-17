@@ -1,0 +1,22 @@
+[
+    {"keywords": ["writing"], "emoji": "💡"},
+    {"keywords": ["journey","still making excuses"], "emoji": "💬"},
+    {"keywords": ["revision", "revise"], "emoji": "🔍📝"},
+    {"keywords": ["break"], "emoji": "☕️"},
+    {"keywords": ["lunch"], "emoji": "🍱"},
+    {"keywords": ["relaxation"], "emoji": "🌿"},
+    {"keywords": ["class"], "emoji": "👩🏻‍🏫"},
+    {"keywords": ["dinner"], "emoji": "🍽️"},
+    {"keywords": ["breakfast"], "emoji": "🥞"},
+    {"keywords": ["slot 0", "sleep"], "emoji": "🛌"},
+    {"keywords": ["good morning", "ias bana pageda"], "emoji": "🌞🌄🌅"},
+    {"keywords": ["good night"], "emoji": "🌙🌠🌌"},
+    {"keywords": ["walking"], "emoji": "👟"},
+    {"keywords": ["newspaper"], "emoji": "📰"},
+    {"keywords": ["bath"], "emoji": "🛁"},
+    {"keywords": ["mcq"], "emoji": "🧐"},
+    {"keywords": ["current affair", "articles"], "emoji": "📻"},
+    {"keywords": ["world map"], "emoji": "🗺️"},
+    {"keywords": ["facewash"], "emoji": "🧼"},
+    {"keywords": ["default"], "emoji": ["📚", "📖", "🧑‍🎓", "👩‍🎓", "👨‍🎓", "📓", "📔", "📒", "🧠", "📅", "🗂️", "📋", "🔖"]}
+]
