@@ -27,7 +27,7 @@ def get_random_emoji(slot_name, json_file=""):
     if(platform.system() == "Windows"):
         json_file="calendar_project/emojis.json"
     else: 
-        json_file="/home/Sharishth/Google-Calendar-Backend/calendar_project/credentials.json"
+        json_file="/home/Sharishth/Google-Calendar-Backend/calendar_project/emojis.json"
     """Fetch a random emoji based on slot name."""
     with open(json_file, "r", encoding="utf-8") as file:
         emoji_data = json.load(file)
@@ -55,7 +55,6 @@ def create_event(service, start_date, start_time, end_time, slot_name):
     """Create an event in Google Calendar."""
     if not CALENDAR_ID:
         raise ValueError("Google Calendar ID is missing.")
-
     emoji = get_random_emoji(slot_name)
     slot_name_with_emoji = f"{slot_name} {emoji}"
 
@@ -123,7 +122,6 @@ def add_events(request):
                 singleEvents=True,
                 orderBy='startTime'
             ).execute()
-
             existing_events = {event['summary'] for event in today_events.get('items', [])}
 
             event_date = datetime.date.today().isoformat()
