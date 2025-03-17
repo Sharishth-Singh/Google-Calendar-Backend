@@ -29,10 +29,6 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 ALLOWED_HOSTS = ['*']
 
-CORS_ALLOWED_ORIGINS = [
-    "*",
-]
-
 # Application definition
 
 INSTALLED_APPS = [
