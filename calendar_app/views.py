@@ -23,7 +23,7 @@ else:  # Windows / Localhost
 CALENDAR_ID = "sharishthsingh@gmail.com"
 
 
-def get_random_emoji(slot_name, json_file):
+def get_random_emoji(slot_name, json_file=""):
     if(platform.system() == "Windows"):
         json_file="calendar_project/emojis.json"
     else: 
