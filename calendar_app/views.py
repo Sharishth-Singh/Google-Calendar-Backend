@@ -36,29 +36,59 @@ def authenticate_google_calendar():
     return build('calendar', 'v3', credentials=credentials)
 
 
+import datetime
+from dateutil.parser import parse
+from dateutil.tz import tzlocal
 def get_today_events(service):
-    """Fetch today's events from Google Calendar, excluding all-day events."""
-    today = datetime.date.today().isoformat()
+    """Fetch today's events from Google Calendar, excluding all-day events.
+       If no timed events exist, fetch yesterday's events.
+       If any event contains 'morning', shift all events to tomorrow.
+    """
+    def fetch_events(date):
+        """Helper function to fetch events for a given date."""
+        date_min = f"{date.isoformat()}T00:00:00+05:30"
+        date_max = f"{date.isoformat()}T23:59:59+05:30"
+        
+        events_result = service.events().list(
+            calendarId=CALENDAR_ID,
+            timeMin=date_min,
+            timeMax=date_max,
+            singleEvents=True,
+            orderBy='startTime'
+        ).execute()
+        
+        return events_result.get('items', [])
 
-    # Define start and end time in IST
-    today_min = f"{today}T00:00:00+05:30"  # 12:00 AM IST
-    today_max = f"{today}T23:59:59+05:30"  # 11:59 PM IST
+    today = datetime.date.today()
+    events = fetch_events(today)
 
-    events_result = service.events().list(
-        calendarId=CALENDAR_ID,
-        timeMin=today_min,
-        timeMax=today_max,
-        singleEvents=True,
-        orderBy='startTime'
-    ).execute()
+    # Filter out all-day events
+    filtered_events = [event for event in events if "dateTime" in event["start"]]
 
-    # Filter out all-day events (which have "date" instead of "dateTime")
-    filtered_events = [
-        event for event in events_result.get('items', [])
-        if "dateTime" in event["start"]  # Keeps only timed events
-    ]
+    # If no timed events, fetch yesterday's events
+    if not filtered_events:
+        yesterday = today - datetime.timedelta(days=1)
+        events = fetch_events(yesterday)
+        filtered_events = [event for event in events if "dateTime" in event["start"]]
+
+    # Check if any event contains "morning"
+    contains_morning = any("morning" in event.get("summary", "").lower() for event in filtered_events)
+
+    # If "morning" exists, shift all events to tomorrow
+    if contains_morning:
+        new_date = today + datetime.timedelta(days=1)
+
+        for event in filtered_events:
+            start_time = parse(event["start"]["dateTime"])
+            end_time = parse(event["end"]["dateTime"])
+
+            event["start"]["dateTime"] = (start_time + datetime.timedelta(days=1)).isoformat()
+            event["end"]["dateTime"] = (end_time + datetime.timedelta(days=1)).isoformat()
 
     return filtered_events
+
+
+
 
 
 
@@ -104,7 +134,6 @@ def create_event(service, start_date, start_time, end_time, slot_name):
 
     # slot_name_with_emoji = f"{slot_name} {emoji}"  
     slot_name_with_emoji = f"{slot_name}{emoji}({format_duration(start_time, end_time)})"
-    print(slot_name_with_emoji)
     # Set colorId based on slot_name
     cId = 5
     with open(KEYWORDS_FILE, "r") as file:
