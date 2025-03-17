@@ -16,11 +16,11 @@ load_dotenv()
 
 # Get credentials path & calendar ID from .env
 if platform.system() == "Windows":  # Linux (PythonAnywhere)
-    SERVICE_ACCOUNT_FILE = os.getenv("GOOGLE_CREDENTIALS_PATH_WINDOWS")
+    SERVICE_ACCOUNT_FILE = "calendar_project/credentials.json"
 else:  # Windows / Localhost
-    SERVICE_ACCOUNT_FILE = os.getenv("GOOGLE_CREDENTIALS_PATH_LINUX")
+    SERVICE_ACCOUNT_FILE = "/home/Sharishth/Google-Calendar-Backend/calendar_project/credentials.json"
 # SERVICE_ACCOUNT_FILE = os.getenv("GOOGLE_CREDENTIALS_PATH")
-CALENDAR_ID = os.getenv("GOOGLE_CALENDAR_ID")
+CALENDAR_ID = "sharishthsingh@gmail.com"
 
 
 def get_random_emoji(slot_name, json_file="calendar_project/emojis.json"):
