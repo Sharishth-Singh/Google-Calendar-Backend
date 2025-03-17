@@ -8,6 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from dotenv import load_dotenv
+from django.http import HttpResponse
+
 
 # Load environment variables
 load_dotenv()
@@ -137,3 +139,6 @@ def add_events(request):
             return JsonResponse({"status": "error", "message": str(e)}, status=400)
 
     return JsonResponse({"status": "error", "message": "Invalid request method."}, status=405)
+
+def home(request):
+    return HttpResponse("Welcome to the Calendar App!")
