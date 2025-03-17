@@ -96,6 +96,7 @@ def create_event(service, start_date, start_time, end_time, slot_name):
 @csrf_exempt
 def add_events(request):
     """Django view to add events to Google Calendar."""
+    print("yes")
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
