@@ -9,16 +9,16 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from dotenv import load_dotenv
 from django.http import HttpResponse
-
+import platform
 
 # Load environment variables
 load_dotenv()
 
 # Get credentials path & calendar ID from .env
-if os.name == "posix":  # Linux (PythonAnywhere)
-    SERVICE_ACCOUNT_FILE = os.getenv("GOOGLE_CREDENTIALS_PATH_LINUX")
-else:  # Windows / Localhost
+if platform.system() == "Windows":  # Linux (PythonAnywhere)
     SERVICE_ACCOUNT_FILE = os.getenv("GOOGLE_CREDENTIALS_PATH_WINDOWS")
+else:  # Windows / Localhost
+    SERVICE_ACCOUNT_FILE = os.getenv("GOOGLE_CREDENTIALS_PATH_LINUX")
 # SERVICE_ACCOUNT_FILE = os.getenv("GOOGLE_CREDENTIALS_PATH")
 CALENDAR_ID = os.getenv("GOOGLE_CALENDAR_ID")
 
