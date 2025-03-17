@@ -23,7 +23,11 @@ else:  # Windows / Localhost
 CALENDAR_ID = "sharishthsingh@gmail.com"
 
 
-def get_random_emoji(slot_name, json_file="calendar_project/emojis.json"):
+def get_random_emoji(slot_name, json_file):
+    if(platform.system() == "Windows"):
+        json_file="calendar_project/emojis.json"
+    else: 
+        json_file="/home/Sharishth/Google-Calendar-Backend/calendar_project/credentials.json"
     """Fetch a random emoji based on slot name."""
     with open(json_file, "r", encoding="utf-8") as file:
         emoji_data = json.load(file)
@@ -57,7 +61,11 @@ def create_event(service, start_date, start_time, end_time, slot_name):
 
     # Set colorId based on slot_name
     cId = 5
-    with open("calendar_project/keywords.txt", "r") as file:
+    if(platform.system() == "Windows"):
+        kWords = "calendar_project/keywords.txt"
+    else:
+        kWords = "/home/Sharishth/Google-Calendar-Backend/calendar_project/keywords.txt"
+    with open(kWords, "r") as file:
         keywords = [line.strip().lower() for line in file]
 
     if any(keyword in slot_name.lower() for keyword in keywords):
