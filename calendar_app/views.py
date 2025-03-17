@@ -15,7 +15,11 @@ from django.http import HttpResponse
 load_dotenv()
 
 # Get credentials path & calendar ID from .env
-SERVICE_ACCOUNT_FILE = os.getenv("GOOGLE_CREDENTIALS_PATH")
+if os.name == "posix":  # Linux (PythonAnywhere)
+    SERVICE_ACCOUNT_FILE = os.getenv("GOOGLE_CREDENTIALS_PATH_LINUX")
+else:  # Windows / Localhost
+    SERVICE_ACCOUNT_FILE = os.getenv("GOOGLE_CREDENTIALS_PATH_WINDOWS")
+# SERVICE_ACCOUNT_FILE = os.getenv("GOOGLE_CREDENTIALS_PATH")
 CALENDAR_ID = os.getenv("GOOGLE_CALENDAR_ID")
 
 
