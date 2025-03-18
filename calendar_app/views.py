@@ -17,13 +17,12 @@ import time
 
 # Set the timezone to India (Asia/Kolkata)
 os.environ["TZ"] = "Asia/Kolkata"
-time.tzset()
+# time.tzset()
 
 # Now, any time-related functions will use the India timezone.
 # For example:
 
 import datetime
-
 today_india = datetime.datetime.now()
 print(f"Current time in India: {today_india}")
 
@@ -90,9 +89,10 @@ def get_today_events(service):
 
     # Check if any event contains "morning"
     contains_morning = any("morning" in event.get("summary", "").lower() for event in filtered_events)
-
+    print("container: ",contains_morning)
     # If "morning" exists, shift all events to tomorrow
     if contains_morning:
+        global new_date
         new_date = today + datetime.timedelta(days=1)
 
         for event in filtered_events:
@@ -102,7 +102,7 @@ def get_today_events(service):
             event["start"]["dateTime"] = (start_time + datetime.timedelta(days=1)).isoformat()
             event["end"]["dateTime"] = (end_time + datetime.timedelta(days=1)).isoformat()
 
-    return filtered_events
+    return filtered_events[:1]
 
 
 
@@ -204,7 +204,7 @@ def add_events(request):
             service = authenticate_google_calendar()
             existing_events = {event['summary'] for event in get_today_events(service)}
 
-            event_date = datetime.date.today().isoformat()
+            event_date = new_date
             created_events = []
 
             for line in time_slot_lines:
