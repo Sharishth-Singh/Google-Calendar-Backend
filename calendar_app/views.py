@@ -102,7 +102,7 @@ def get_today_events(service):
             event["start"]["dateTime"] = (start_time + datetime.timedelta(days=1)).isoformat()
             event["end"]["dateTime"] = (end_time + datetime.timedelta(days=1)).isoformat()
 
-    return filtered_events[:1]
+    return filtered_events
 
 
 
