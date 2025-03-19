@@ -199,6 +199,7 @@ def add_events(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
+            print(data)
             time_slot_lines = data.get("time_slots", [])
 
             service = authenticate_google_calendar()
