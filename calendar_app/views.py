@@ -34,10 +34,13 @@ if platform.system() == "Windows":
     SERVICE_ACCOUNT_FILE = "calendar_project/credentials.json"
     EMOJIS_FILE = "calendar_project/emojis.json"
     KEYWORDS_FILE = "calendar_project/keywords.txt"
+    TEXT_FILE_PATH = "calendar_project/events.txt"
 else:  
     SERVICE_ACCOUNT_FILE = "/home/Sharishth/Google-Calendar-Backend/calendar_project/credentials.json"
     EMOJIS_FILE = "/home/Sharishth/Google-Calendar-Backend/calendar_project/emojis.json"
     KEYWORDS_FILE = "/home/Sharishth/Google-Calendar-Backend/calendar_project/keywords.txt"
+    TEXT_FILE_PATH = "/home/Sharishth/Google-Calendar-Backend/calendar_project/events.txt"
+
 
 CALENDAR_ID = "sharishthsingh@gmail.com"
 
@@ -257,7 +260,6 @@ def get_events(request):
 
     return JsonResponse({"status": "error", "message": "Invalid request method."}, status=405)
 
-TEXT_FILE_PATH = "calendar_project/events.txt"
 
 def get_file_content(request):
     """Read and return the content of a .txt file as plain text."""
