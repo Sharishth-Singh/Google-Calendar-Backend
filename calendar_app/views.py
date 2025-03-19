@@ -257,6 +257,35 @@ def get_events(request):
 
     return JsonResponse({"status": "error", "message": "Invalid request method."}, status=405)
 
+TEXT_FILE_PATH = "calendar_project/events.txt"
+
+def get_file_content(request):
+    """Read and return the content of a .txt file as plain text."""
+    if request.method == 'GET':
+        try:
+            with open(TEXT_FILE_PATH, "r", encoding="utf-8") as file:
+                content = file.read()
+            return HttpResponse(content, content_type="text/plain", status=200)
+        except Exception as e:
+            return HttpResponse(f"Error: {str(e)}", content_type="text/plain", status=400)
+
+    return HttpResponse("Invalid request method.", content_type="text/plain", status=405)
+
+@csrf_exempt
+def update_file_content(request):
+    """Overwrite the .txt file with new content received from frontend."""
+    if request.method == 'POST':
+        try:
+            new_content = request.body.decode("utf-8")  # Read raw text input
+
+            with open(TEXT_FILE_PATH, "w", encoding="utf-8") as file:
+                file.write(new_content)  # Overwrite file with new content
+
+            return HttpResponse("File updated successfully.", content_type="text/plain", status=200)
+        except Exception as e:
+            return HttpResponse(f"Error: {str(e)}", content_type="text/plain", status=400)
+
+    return HttpResponse("Invalid request method.", content_type="text/plain", status=405)
 
 def home(request):
     """Home page response."""
