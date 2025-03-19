@@ -33,7 +33,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 # CORS_ALLOW_HEADERS = ["*"]
 # CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
 
-ALLOWED_HOSTS = ['google-calendar-frontend-liard.vercel.app', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
