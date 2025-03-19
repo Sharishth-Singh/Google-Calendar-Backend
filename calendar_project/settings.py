@@ -25,13 +25,13 @@ SECRET_KEY = 'django-insecure-afupk06uuzcxd=6#_uh=@n2i8yj4&04n*@^4iu8m&rmg*s2(od
 GOOGLE_CREDENTIALS_PATH = 'calendar_project/credentials.json'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-CORS_ALLOW_ALL_ORIGINS = True
-# CORS_ALLOWED_ORIGINS = [
-#     "https://google-calendar-frontend-liard.vercel.app",  # Add your frontend URL
-#     "http://localhost:3000", 
-# ]
-# CORS_ALLOW_HEADERS = ["*"]
-# CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "https://google-calendar-frontend-liard.vercel.app",  # Add your frontend URL
+    "http://localhost:3000", 
+]
+CORS_ALLOW_HEADERS = ["*"]
+CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
 
 ALLOWED_HOSTS = ['*']
 
