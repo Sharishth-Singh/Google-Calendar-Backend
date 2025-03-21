@@ -163,7 +163,7 @@ def create_event(service, start_date, start_time, end_time, slot_name):
         cId = 4
     elif "class" in slot_name.lower() and "note" not in slot_name.lower() and "revision" not in slot_name.lower():
         cId = 2
-    elif "psir" not in slot_name.lower() and "political science and international relation" not in slot_name.lower():
+    elif "psir" not in slot_name.lower() and "political science and international relation" not in slot_name.lower() and "political science & international relation" not in slot_name.lower():
         cId = None
 
     try:
