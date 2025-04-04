@@ -34,12 +34,12 @@ if platform.system() == "Windows":
     SERVICE_ACCOUNT_FILE = "calendar_project/credentials.json"
     EMOJIS_FILE = "calendar_project/emojis.json"
     KEYWORDS_FILE = "calendar_project/keywords.txt"
-    TEXT_FILE_PATH = "calendar_project/events.txt"
+    BASE_DIR = "calendar_project"
 else:  
     SERVICE_ACCOUNT_FILE = "/home/Sharishth/Google-Calendar-Backend/calendar_project/credentials.json"
     EMOJIS_FILE = "/home/Sharishth/Google-Calendar-Backend/calendar_project/emojis.json"
     KEYWORDS_FILE = "/home/Sharishth/Google-Calendar-Backend/calendar_project/keywords.txt"
-    TEXT_FILE_PATH = "/home/Sharishth/Google-Calendar-Backend/calendar_project/events.txt"
+    BASE_DIR = "/home/Sharishth/Google-Calendar-Backend/calendar_project"
 
 
 CALENDAR_ID = "sharishthsingh@gmail.com"
@@ -262,10 +262,15 @@ def get_events(request):
 
 
 def get_file_content(request):
-    """Read and return the content of a .txt file as plain text."""
+    """Read and return the content of a .txt file based on filename query param."""
     if request.method == 'GET':
+        filename = request.GET.get('filename')
+        if not filename:
+            return HttpResponse("Filename not provided.", content_type="text/plain", status=400)
+
+        file_path = os.path.join(BASE_DIR, filename)
         try:
-            with open(TEXT_FILE_PATH, "r", encoding="utf-8") as file:
+            with open(file_path, "r", encoding="utf-8") as file:
                 content = file.read()
             return HttpResponse(content, content_type="text/plain", status=200)
         except Exception as e:
@@ -273,21 +278,28 @@ def get_file_content(request):
 
     return HttpResponse("Invalid request method.", content_type="text/plain", status=405)
 
+
 @csrf_exempt
 def update_file_content(request):
-    """Overwrite the .txt file with new content received from frontend."""
+    """Overwrite a .txt file with new content based on filename query param."""
     if request.method == 'POST':
-        try:
-            new_content = request.body.decode("utf-8")  # Read raw text input
+        filename = request.GET.get('filename')
+        if not filename:
+            return HttpResponse("Filename not provided.", content_type="text/plain", status=400)
 
-            with open(TEXT_FILE_PATH, "w", encoding="utf-8") as file:
-                file.write(new_content)  # Overwrite file with new content
+        file_path = os.path.join(BASE_DIR, filename)
+        try:
+            new_content = request.body.decode("utf-8")  # Read raw text
+
+            with open(file_path, "w", encoding="utf-8") as file:
+                file.write(new_content)  # Overwrite file
 
             return HttpResponse("File updated successfully.", content_type="text/plain", status=200)
         except Exception as e:
             return HttpResponse(f"Error: {str(e)}", content_type="text/plain", status=400)
 
     return HttpResponse("Invalid request method.", content_type="text/plain", status=405)
+
 
 def home(request):
     """Home page response."""
