@@ -187,7 +187,11 @@ def create_event(service, start_date, start_time, end_time, slot_name):
 
     description = None
     if("editorial" in slot_name.lower()):
-        description = "\n\n".join(get_pwonlyias_questions_by_date())  # Join the questions into a single string
+        try:
+            description = "\n\n".join(get_pwonlyias_questions_by_date())  # Join the questions into a single string
+        except:
+            description = "Unable to fetch questions."
+
 
     event = {
         'summary': slot_name_with_emoji,
