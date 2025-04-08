@@ -3,6 +3,13 @@ import random
 import json
 import os
 import platform
+import subprocess
+import requests
+import re
+from calendar_project.questions import get_pwonlyias_questions_by_date
+from lxml import etree
+from io import StringIO
+from datetime import datetime
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from google.oauth2 import service_account
@@ -125,6 +132,8 @@ def get_random_emoji(slot_name):
     default_entry = next((e for e in emoji_data if "default" in e["keywords"]), None)
     return random.choice(default_entry["emoji"]) if default_entry else "❓"
 
+
+
 def format_duration(start_time, end_time):
     # Correct format for 12-hour time with AM/PM
     fmt = "%I:%M %p"
@@ -144,7 +153,7 @@ def format_duration(start_time, end_time):
         return f"{hours}h {minutes} m"
 
 
-
+@csrf_exempt
 def create_event(service, start_date, start_time, end_time, slot_name):
     """Create an event in Google Calendar."""
     if not CALENDAR_ID:
@@ -176,8 +185,13 @@ def create_event(service, start_date, start_time, end_time, slot_name):
     start_datetime = f"{start_date}T{start_time_24}:00+05:30"
     end_datetime = f"{start_date}T{end_time_24}:00+05:30"
 
+    description = None
+    if("editorial" in slot_name.lower()):
+        description = "\n\n".join(get_pwonlyias_questions_by_date())  # Join the questions into a single string
+
     event = {
         'summary': slot_name_with_emoji,
+        'description': description,
         'start': {'dateTime': start_datetime, 'timeZone': 'Asia/Kolkata'},
         'end': {'dateTime': end_datetime, 'timeZone': 'Asia/Kolkata'},
         'transparency': 'transparent',
