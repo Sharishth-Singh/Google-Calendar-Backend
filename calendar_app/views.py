@@ -152,6 +152,12 @@ def format_duration(start_time, end_time):
     else:
         return f"{hours}h {minutes} m"
 
+@csrf_exempt
+def fetch_pwonlyias_questions(today=None):
+    question = get_pwonlyias_questions_by_date()
+    return JsonResponse({"questions": "\n\n".join(question)})
+
+
 
 @csrf_exempt
 def create_event(service, start_date, start_time, end_time, slot_name):
