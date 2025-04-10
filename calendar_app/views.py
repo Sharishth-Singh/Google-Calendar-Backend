@@ -159,15 +159,41 @@ def fetch_pwonlyias_questions(today=None):
 
 
 @csrf_exempt
-def fetch_data(request):
-    url = "https://api.github.com"  # change this to your target URL
+def fetch_github_api_data(request):
+    session = requests.Session()
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
+        "Accept": "application/vnd.github.v3+json",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Cache-Control": "max-age=0",
+        "Sec-Ch-Ua": '"Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"',
+        "Sec-Ch-Ua-Mobile": "?0",
+        "Sec-Ch-Ua-Platform": '"Windows"',
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-origin",
+        "Upgrade-Insecure-Requests": "1"
+    }
+
+    # Optional: get username from query ?user=octocat
+    github_user = request.GET.get("user", "octocat")
+    url = f"https://api.github.com/users/{github_user}"
 
     try:
-        response = requests.get(url)
+        response = session.get(url, headers=headers)
+        response.raise_for_status()  # Raises HTTPError for bad responses
         data = response.json()
-        return JsonResponse(data)
+
+        return JsonResponse({
+            "fetched_at": str(datetime.datetime.now()),
+            "user": github_user,
+            "data": data
+        })
+
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+
 
 
 @csrf_exempt
