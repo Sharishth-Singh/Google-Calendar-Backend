@@ -158,6 +158,17 @@ def fetch_pwonlyias_questions(today=None):
     return JsonResponse({"questions": "\n\n".join(question)})
 
 
+@csrf_exempt
+def fetch_data(request):
+    url = "https://api.github.com"  # change this to your target URL
+
+    try:
+        response = requests.get(url)
+        data = response.json()
+        return JsonResponse(data)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
 
 @csrf_exempt
 def create_event(service, start_date, start_time, end_time, slot_name):
