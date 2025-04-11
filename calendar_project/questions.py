@@ -72,4 +72,4 @@ def get_pwonlyias_questions_by_date():
             file.write(question + "\n")
     return questions
 
-get_pwonlyias_questions_by_date()
+# get_pwonlyias_questions_by_date()
