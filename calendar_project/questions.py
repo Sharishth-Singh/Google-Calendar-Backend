@@ -23,7 +23,7 @@ def get_pwonlyias_questions_by_date():
         "Sec-Fetch-User": "?1",
         "Upgrade-Insecure-Requests": "1"
     }
-    target_date = datetime.date(2025, 4, 7)
+    target_date = datetime.date(2025, 4, 10)
     # target_date = datetime.date.today()
 
     def extract_questions_with_tags(html_content, target_date):
@@ -66,4 +66,10 @@ def get_pwonlyias_questions_by_date():
     html_content = response.content.decode("utf-8")
 
     questions = extract_questions_with_tags(html_content, target_date)
+    # write in a file
+    with open("pwonlyias_questions.txt", "w", encoding="utf-8") as file:
+        for question in questions:
+            file.write(question + "\n")
     return questions
+
+get_pwonlyias_questions_by_date()
